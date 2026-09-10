@@ -1,0 +1,13 @@
+# Rust / Cargo build artifacts
+/target/
+Cargo.lock
+
+# Editor & OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Soroban / Wasm artifacts
+*.wasm
+.soroban/
