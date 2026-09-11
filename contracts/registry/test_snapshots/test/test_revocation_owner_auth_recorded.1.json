@@ -18,7 +18,7 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-revoke-auth"
                 },
                 {
                   "string": "hash-placeholder"
@@ -33,7 +33,28 @@
         }
       ]
     ],
-    []
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+              "function_name": "revoke_artifact",
+              "args": [
+                {
+                  "string": "art-revoke-auth"
+                },
+                {
+                  "string": "sha256-reason"
+                }
+              ]
+            }
+          },
+          "sub_invocations": []
+        }
+      ]
+    ]
   ],
   "ledger": {
     "protocol_version": 22,
@@ -55,7 +76,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-revoke-auth"
                 }
               ]
             },
@@ -75,7 +96,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-self-ref"
+                      "string": "art-revoke-auth"
                     }
                   ]
                 },
@@ -95,7 +116,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-self-ref"
+                        "string": "art-revoke-auth"
                       }
                     },
                     {
@@ -126,13 +147,17 @@
                       "key": {
                         "symbol": "revocation_reason_hash"
                       },
-                      "val": "void"
+                      "val": {
+                        "string": "sha256-reason"
+                      }
                     },
                     {
                       "key": {
                         "symbol": "revoked_at"
                       },
-                      "val": "void"
+                      "val": {
+                        "u64": 0
+                      }
                     },
                     {
                       "key": {
@@ -141,7 +166,7 @@
                       "val": {
                         "vec": [
                           {
-                            "symbol": "Active"
+                            "symbol": "Revoked"
                           }
                         ]
                       }
@@ -222,6 +247,39 @@
       ],
       [
         {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+            "key": {
+              "ledger_key_nonce": {
+                "nonce": 5541220902715666415
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 5541220902715666415
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
           "contract_code": {
             "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
           }
@@ -243,5 +301,27 @@
       ]
     ]
   },
-  "events": []
+  "events": [
+    {
+      "event": {
+        "ext": "v0",
+        "contract_id": "0000000000000000000000000000000000000000000000000000000000000001",
+        "type_": "contract",
+        "body": {
+          "v0": {
+            "topics": [
+              {
+                "symbol": "artifact_revoked"
+              },
+              {
+                "string": "art-revoke-auth"
+              }
+            ],
+            "data": "void"
+          }
+        }
+      },
+      "failed_call": false
+    }
+  ]
 }

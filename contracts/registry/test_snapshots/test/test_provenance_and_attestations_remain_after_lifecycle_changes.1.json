@@ -1,6 +1,6 @@
 {
   "generators": {
-    "address": 2,
+    "address": 3,
     "nonce": 0
   },
   "auth": [
@@ -18,13 +18,13 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-A"
+                  "string": "art-lifecycle-a"
                 },
                 {
-                  "string": "hA"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeA"
+                  "string": "model"
                 }
               ]
             }
@@ -46,41 +46,13 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-B"
+                  "string": "art-lifecycle-b"
                 },
                 {
-                  "string": "hB"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeB"
-                }
-              ]
-            }
-          },
-          "sub_invocations": []
-        }
-      ]
-    ],
-    [
-      [
-        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-        {
-          "function": {
-            "contract_fn": {
-              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "register_artifact",
-              "args": [
-                {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
-                },
-                {
-                  "string": "art-C"
-                },
-                {
-                  "string": "hC"
-                },
-                {
-                  "string": "typeC"
+                  "string": "model"
                 }
               ]
             }
@@ -99,13 +71,13 @@
               "function_name": "add_provenance_relation",
               "args": [
                 {
-                  "string": "rel-1"
+                  "string": "rel-lifecycle-001"
                 },
                 {
-                  "string": "art-A"
+                  "string": "art-lifecycle-a"
                 },
                 {
-                  "string": "art-B"
+                  "string": "art-lifecycle-b"
                 },
                 {
                   "vec": [
@@ -123,28 +95,31 @@
     ],
     [
       [
-        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
         {
           "function": {
             "contract_fn": {
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "add_provenance_relation",
+              "function_name": "add_attestation",
               "args": [
                 {
-                  "string": "rel-2"
+                  "string": "att-lifecycle-001"
                 },
                 {
-                  "string": "art-A"
+                  "string": "art-lifecycle-a"
                 },
                 {
-                  "string": "art-C"
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
                 },
                 {
                   "vec": [
                     {
-                      "symbol": "EvaluatedWith"
+                      "symbol": "Verified"
                     }
                   ]
+                },
+                {
+                  "string": "sha256-lifecycle-ev"
                 }
               ]
             }
@@ -153,6 +128,29 @@
         }
       ]
     ],
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+              "function_name": "revoke_artifact",
+              "args": [
+                {
+                  "string": "art-lifecycle-a"
+                },
+                {
+                  "string": "sha256-revoke-reason"
+                }
+              ]
+            }
+          },
+          "sub_invocations": []
+        }
+      ]
+    ],
+    [],
     [],
     [],
     []
@@ -177,7 +175,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-A"
+                  "string": "art-lifecycle-a"
                 }
               ]
             },
@@ -197,7 +195,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-A"
+                      "string": "art-lifecycle-a"
                     }
                   ]
                 },
@@ -209,7 +207,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hA"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -217,7 +215,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-A"
+                        "string": "art-lifecycle-a"
                       }
                     },
                     {
@@ -225,7 +223,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeA"
+                        "string": "model"
                       }
                     },
                     {
@@ -248,13 +246,17 @@
                       "key": {
                         "symbol": "revocation_reason_hash"
                       },
-                      "val": "void"
+                      "val": {
+                        "string": "sha256-revoke-reason"
+                      }
                     },
                     {
                       "key": {
                         "symbol": "revoked_at"
                       },
-                      "val": "void"
+                      "val": {
+                        "u64": 0
+                      }
                     },
                     {
                       "key": {
@@ -263,7 +265,7 @@
                       "val": {
                         "vec": [
                           {
-                            "symbol": "Active"
+                            "symbol": "Revoked"
                           }
                         ]
                       }
@@ -287,7 +289,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-B"
+                  "string": "art-lifecycle-b"
                 }
               ]
             },
@@ -307,7 +309,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-B"
+                      "string": "art-lifecycle-b"
                     }
                   ]
                 },
@@ -319,7 +321,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hB"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -327,7 +329,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-B"
+                        "string": "art-lifecycle-b"
                       }
                     },
                     {
@@ -335,7 +337,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeB"
+                        "string": "model"
                       }
                     },
                     {
@@ -394,10 +396,10 @@
             "key": {
               "vec": [
                 {
-                  "symbol": "Artifact"
+                  "symbol": "ArtifactAttestations"
                 },
                 {
-                  "string": "art-C"
+                  "string": "art-lifecycle-a"
                 }
               ]
             },
@@ -414,10 +416,157 @@
                 "key": {
                   "vec": [
                     {
-                      "symbol": "Artifact"
+                      "symbol": "ArtifactAttestations"
                     },
                     {
-                      "string": "art-C"
+                      "string": "art-lifecycle-a"
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "vec": [
+                    {
+                      "string": "att-lifecycle-001"
+                    }
+                  ]
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          4095
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "ArtifactRelations"
+                },
+                {
+                  "string": "art-lifecycle-a"
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "ArtifactRelations"
+                    },
+                    {
+                      "string": "art-lifecycle-a"
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "vec": [
+                    {
+                      "string": "rel-lifecycle-001"
+                    }
+                  ]
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          4095
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "ArtifactRelations"
+                },
+                {
+                  "string": "art-lifecycle-b"
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "ArtifactRelations"
+                    },
+                    {
+                      "string": "art-lifecycle-b"
+                    }
+                  ]
+                },
+                "durability": "persistent",
+                "val": {
+                  "vec": [
+                    {
+                      "string": "rel-lifecycle-001"
+                    }
+                  ]
+                }
+              }
+            },
+            "ext": "v0"
+          },
+          4095
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+            "key": {
+              "vec": [
+                {
+                  "symbol": "Attestation"
+                },
+                {
+                  "string": "att-lifecycle-001"
+                }
+              ]
+            },
+            "durability": "persistent"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+                "key": {
+                  "vec": [
+                    {
+                      "symbol": "Attestation"
+                    },
+                    {
+                      "string": "att-lifecycle-001"
                     }
                   ]
                 },
@@ -426,26 +575,38 @@
                   "map": [
                     {
                       "key": {
-                        "symbol": "artifact_hash"
-                      },
-                      "val": {
-                        "string": "hC"
-                      }
-                    },
-                    {
-                      "key": {
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-C"
+                        "string": "art-lifecycle-a"
                       }
                     },
                     {
                       "key": {
-                        "symbol": "artifact_type"
+                        "symbol": "attestation_id"
                       },
                       "val": {
-                        "string": "typeC"
+                        "string": "att-lifecycle-001"
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "attestation_type"
+                      },
+                      "val": {
+                        "vec": [
+                          {
+                            "symbol": "Verified"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "attester"
+                      },
+                      "val": {
+                        "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
                       }
                     },
                     {
@@ -458,185 +619,11 @@
                     },
                     {
                       "key": {
-                        "symbol": "owner"
+                        "symbol": "evidence_hash"
                       },
                       "val": {
-                        "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                        "string": "sha256-lifecycle-ev"
                       }
-                    },
-                    {
-                      "key": {
-                        "symbol": "revocation_reason_hash"
-                      },
-                      "val": "void"
-                    },
-                    {
-                      "key": {
-                        "symbol": "revoked_at"
-                      },
-                      "val": "void"
-                    },
-                    {
-                      "key": {
-                        "symbol": "status"
-                      },
-                      "val": {
-                        "vec": [
-                          {
-                            "symbol": "Active"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "ArtifactRelations"
-                },
-                {
-                  "string": "art-A"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "ArtifactRelations"
-                    },
-                    {
-                      "string": "art-A"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "vec": [
-                    {
-                      "string": "rel-1"
-                    },
-                    {
-                      "string": "rel-2"
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "ArtifactRelations"
-                },
-                {
-                  "string": "art-B"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "ArtifactRelations"
-                    },
-                    {
-                      "string": "art-B"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "vec": [
-                    {
-                      "string": "rel-1"
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "ArtifactRelations"
-                },
-                {
-                  "string": "art-C"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "ArtifactRelations"
-                    },
-                    {
-                      "string": "art-C"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "vec": [
-                    {
-                      "string": "rel-2"
                     }
                   ]
                 }
@@ -657,7 +644,7 @@
                   "symbol": "Relation"
                 },
                 {
-                  "string": "rel-1"
+                  "string": "rel-lifecycle-001"
                 }
               ]
             },
@@ -677,7 +664,7 @@
                       "symbol": "Relation"
                     },
                     {
-                      "string": "rel-1"
+                      "string": "rel-lifecycle-001"
                     }
                   ]
                 },
@@ -697,7 +684,7 @@
                         "symbol": "relation_id"
                       },
                       "val": {
-                        "string": "rel-1"
+                        "string": "rel-lifecycle-001"
                       }
                     },
                     {
@@ -717,7 +704,7 @@
                         "symbol": "source_artifact_id"
                       },
                       "val": {
-                        "string": "art-A"
+                        "string": "art-lifecycle-a"
                       }
                     },
                     {
@@ -725,97 +712,7 @@
                         "symbol": "target_artifact_id"
                       },
                       "val": {
-                        "string": "art-B"
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "Relation"
-                },
-                {
-                  "string": "rel-2"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "Relation"
-                    },
-                    {
-                      "string": "rel-2"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "map": [
-                    {
-                      "key": {
-                        "symbol": "created_at"
-                      },
-                      "val": {
-                        "u64": 0
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "relation_id"
-                      },
-                      "val": {
-                        "string": "rel-2"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "relation_type"
-                      },
-                      "val": {
-                        "vec": [
-                          {
-                            "symbol": "EvaluatedWith"
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "source_artifact_id"
-                      },
-                      "val": {
-                        "string": "art-A"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "target_artifact_id"
-                      },
-                      "val": {
-                        "string": "art-C"
+                        "string": "art-lifecycle-b"
                       }
                     }
                   ]
@@ -964,39 +861,6 @@
             "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
             "key": {
               "ledger_key_nonce": {
-                "nonce": 4837995959683129791
-              }
-            },
-            "durability": "temporary"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-                "key": {
-                  "ledger_key_nonce": {
-                    "nonce": 4837995959683129791
-                  }
-                },
-                "durability": "temporary",
-                "val": "void"
-              }
-            },
-            "ext": "v0"
-          },
-          6311999
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-            "key": {
-              "ledger_key_nonce": {
                 "nonce": 5541220902715666415
               }
             },
@@ -1013,6 +877,39 @@
                 "key": {
                   "ledger_key_nonce": {
                     "nonce": 5541220902715666415
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
+            "key": {
+              "ledger_key_nonce": {
+                "nonce": 4837995959683129791
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 4837995959683129791
                   }
                 },
                 "durability": "temporary",

@@ -18,13 +18,35 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-revoke-dup"
                 },
                 {
                   "string": "hash-placeholder"
                 },
                 {
                   "string": "model"
+                }
+              ]
+            }
+          },
+          "sub_invocations": []
+        }
+      ]
+    ],
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
+              "function_name": "revoke_artifact",
+              "args": [
+                {
+                  "string": "art-revoke-dup"
+                },
+                {
+                  "string": "sha256-reason"
                 }
               ]
             }
@@ -55,7 +77,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-revoke-dup"
                 }
               ]
             },
@@ -75,7 +97,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-self-ref"
+                      "string": "art-revoke-dup"
                     }
                   ]
                 },
@@ -95,7 +117,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-self-ref"
+                        "string": "art-revoke-dup"
                       }
                     },
                     {
@@ -126,13 +148,17 @@
                       "key": {
                         "symbol": "revocation_reason_hash"
                       },
-                      "val": "void"
+                      "val": {
+                        "string": "sha256-reason"
+                      }
                     },
                     {
                       "key": {
                         "symbol": "revoked_at"
                       },
-                      "val": "void"
+                      "val": {
+                        "u64": 0
+                      }
                     },
                     {
                       "key": {
@@ -141,7 +167,7 @@
                       "val": {
                         "vec": [
                           {
-                            "symbol": "Active"
+                            "symbol": "Revoked"
                           }
                         ]
                       }
@@ -209,6 +235,39 @@
                 "key": {
                   "ledger_key_nonce": {
                     "nonce": 801925984706572462
+                  }
+                },
+                "durability": "temporary",
+                "val": "void"
+              }
+            },
+            "ext": "v0"
+          },
+          6311999
+        ]
+      ],
+      [
+        {
+          "contract_data": {
+            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+            "key": {
+              "ledger_key_nonce": {
+                "nonce": 5541220902715666415
+              }
+            },
+            "durability": "temporary"
+          }
+        },
+        [
+          {
+            "last_modified_ledger_seq": 0,
+            "data": {
+              "contract_data": {
+                "ext": "v0",
+                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                "key": {
+                  "ledger_key_nonce": {
+                    "nonce": 5541220902715666415
                   }
                 },
                 "durability": "temporary",

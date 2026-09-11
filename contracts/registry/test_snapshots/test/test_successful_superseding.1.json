@@ -18,13 +18,13 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-A"
+                  "string": "model-v1"
                 },
                 {
-                  "string": "hA"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeA"
+                  "string": "model"
                 }
               ]
             }
@@ -46,13 +46,13 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-B"
+                  "string": "model-v2"
                 },
                 {
-                  "string": "hB"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeB"
+                  "string": "model"
                 }
               ]
             }
@@ -68,83 +68,16 @@
           "function": {
             "contract_fn": {
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "register_artifact",
+              "function_name": "supersede_artifact",
               "args": [
                 {
-                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                  "string": "model-v1"
                 },
                 {
-                  "string": "art-C"
+                  "string": "model-v2"
                 },
                 {
-                  "string": "hC"
-                },
-                {
-                  "string": "typeC"
-                }
-              ]
-            }
-          },
-          "sub_invocations": []
-        }
-      ]
-    ],
-    [
-      [
-        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-        {
-          "function": {
-            "contract_fn": {
-              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "add_provenance_relation",
-              "args": [
-                {
-                  "string": "rel-1"
-                },
-                {
-                  "string": "art-A"
-                },
-                {
-                  "string": "art-B"
-                },
-                {
-                  "vec": [
-                    {
-                      "symbol": "DerivedFrom"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "sub_invocations": []
-        }
-      ]
-    ],
-    [
-      [
-        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-        {
-          "function": {
-            "contract_fn": {
-              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "add_provenance_relation",
-              "args": [
-                {
-                  "string": "rel-2"
-                },
-                {
-                  "string": "art-A"
-                },
-                {
-                  "string": "art-C"
-                },
-                {
-                  "vec": [
-                    {
-                      "symbol": "EvaluatedWith"
-                    }
-                  ]
+                  "string": "supersede-rel-001"
                 }
               ]
             }
@@ -177,7 +110,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-A"
+                  "string": "model-v1"
                 }
               ]
             },
@@ -197,7 +130,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-A"
+                      "string": "model-v1"
                     }
                   ]
                 },
@@ -209,7 +142,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hA"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -217,7 +150,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-A"
+                        "string": "model-v1"
                       }
                     },
                     {
@@ -225,7 +158,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeA"
+                        "string": "model"
                       }
                     },
                     {
@@ -254,7 +187,9 @@
                       "key": {
                         "symbol": "revoked_at"
                       },
-                      "val": "void"
+                      "val": {
+                        "u64": 0
+                      }
                     },
                     {
                       "key": {
@@ -263,7 +198,7 @@
                       "val": {
                         "vec": [
                           {
-                            "symbol": "Active"
+                            "symbol": "Superseded"
                           }
                         ]
                       }
@@ -287,7 +222,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-B"
+                  "string": "model-v2"
                 }
               ]
             },
@@ -307,7 +242,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-B"
+                      "string": "model-v2"
                     }
                   ]
                 },
@@ -319,7 +254,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hB"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -327,7 +262,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-B"
+                        "string": "model-v2"
                       }
                     },
                     {
@@ -335,117 +270,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeB"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "created_at"
-                      },
-                      "val": {
-                        "u64": 0
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "owner"
-                      },
-                      "val": {
-                        "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "revocation_reason_hash"
-                      },
-                      "val": "void"
-                    },
-                    {
-                      "key": {
-                        "symbol": "revoked_at"
-                      },
-                      "val": "void"
-                    },
-                    {
-                      "key": {
-                        "symbol": "status"
-                      },
-                      "val": {
-                        "vec": [
-                          {
-                            "symbol": "Active"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "Artifact"
-                },
-                {
-                  "string": "art-C"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "Artifact"
-                    },
-                    {
-                      "string": "art-C"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "map": [
-                    {
-                      "key": {
-                        "symbol": "artifact_hash"
-                      },
-                      "val": {
-                        "string": "hC"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "artifact_id"
-                      },
-                      "val": {
-                        "string": "art-C"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "artifact_type"
-                      },
-                      "val": {
-                        "string": "typeC"
+                        "string": "model"
                       }
                     },
                     {
@@ -507,7 +332,7 @@
                   "symbol": "ArtifactRelations"
                 },
                 {
-                  "string": "art-A"
+                  "string": "model-v1"
                 }
               ]
             },
@@ -527,7 +352,7 @@
                       "symbol": "ArtifactRelations"
                     },
                     {
-                      "string": "art-A"
+                      "string": "model-v1"
                     }
                   ]
                 },
@@ -535,10 +360,7 @@
                 "val": {
                   "vec": [
                     {
-                      "string": "rel-1"
-                    },
-                    {
-                      "string": "rel-2"
+                      "string": "supersede-rel-001"
                     }
                   ]
                 }
@@ -559,7 +381,7 @@
                   "symbol": "ArtifactRelations"
                 },
                 {
-                  "string": "art-B"
+                  "string": "model-v2"
                 }
               ]
             },
@@ -579,7 +401,7 @@
                       "symbol": "ArtifactRelations"
                     },
                     {
-                      "string": "art-B"
+                      "string": "model-v2"
                     }
                   ]
                 },
@@ -587,56 +409,7 @@
                 "val": {
                   "vec": [
                     {
-                      "string": "rel-1"
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "ArtifactRelations"
-                },
-                {
-                  "string": "art-C"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "ArtifactRelations"
-                    },
-                    {
-                      "string": "art-C"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "vec": [
-                    {
-                      "string": "rel-2"
+                      "string": "supersede-rel-001"
                     }
                   ]
                 }
@@ -657,7 +430,7 @@
                   "symbol": "Relation"
                 },
                 {
-                  "string": "rel-1"
+                  "string": "supersede-rel-001"
                 }
               ]
             },
@@ -677,7 +450,7 @@
                       "symbol": "Relation"
                     },
                     {
-                      "string": "rel-1"
+                      "string": "supersede-rel-001"
                     }
                   ]
                 },
@@ -697,7 +470,7 @@
                         "symbol": "relation_id"
                       },
                       "val": {
-                        "string": "rel-1"
+                        "string": "supersede-rel-001"
                       }
                     },
                     {
@@ -707,7 +480,7 @@
                       "val": {
                         "vec": [
                           {
-                            "symbol": "DerivedFrom"
+                            "symbol": "PreviousVersion"
                           }
                         ]
                       }
@@ -717,7 +490,7 @@
                         "symbol": "source_artifact_id"
                       },
                       "val": {
-                        "string": "art-A"
+                        "string": "model-v2"
                       }
                     },
                     {
@@ -725,97 +498,7 @@
                         "symbol": "target_artifact_id"
                       },
                       "val": {
-                        "string": "art-B"
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "ext": "v0"
-          },
-          4095
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-            "key": {
-              "vec": [
-                {
-                  "symbol": "Relation"
-                },
-                {
-                  "string": "rel-2"
-                }
-              ]
-            },
-            "durability": "persistent"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-                "key": {
-                  "vec": [
-                    {
-                      "symbol": "Relation"
-                    },
-                    {
-                      "string": "rel-2"
-                    }
-                  ]
-                },
-                "durability": "persistent",
-                "val": {
-                  "map": [
-                    {
-                      "key": {
-                        "symbol": "created_at"
-                      },
-                      "val": {
-                        "u64": 0
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "relation_id"
-                      },
-                      "val": {
-                        "string": "rel-2"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "relation_type"
-                      },
-                      "val": {
-                        "vec": [
-                          {
-                            "symbol": "EvaluatedWith"
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "source_artifact_id"
-                      },
-                      "val": {
-                        "string": "art-A"
-                      }
-                    },
-                    {
-                      "key": {
-                        "symbol": "target_artifact_id"
-                      },
-                      "val": {
-                        "string": "art-C"
+                        "string": "model-v1"
                       }
                     }
                   ]
@@ -914,72 +597,6 @@
                 "key": {
                   "ledger_key_nonce": {
                     "nonce": 1033654523790656264
-                  }
-                },
-                "durability": "temporary",
-                "val": "void"
-              }
-            },
-            "ext": "v0"
-          },
-          6311999
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-            "key": {
-              "ledger_key_nonce": {
-                "nonce": 2032731177588607455
-              }
-            },
-            "durability": "temporary"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-                "key": {
-                  "ledger_key_nonce": {
-                    "nonce": 2032731177588607455
-                  }
-                },
-                "durability": "temporary",
-                "val": "void"
-              }
-            },
-            "ext": "v0"
-          },
-          6311999
-        ]
-      ],
-      [
-        {
-          "contract_data": {
-            "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-            "key": {
-              "ledger_key_nonce": {
-                "nonce": 4837995959683129791
-              }
-            },
-            "durability": "temporary"
-          }
-        },
-        [
-          {
-            "last_modified_ledger_seq": 0,
-            "data": {
-              "contract_data": {
-                "ext": "v0",
-                "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
-                "key": {
-                  "ledger_key_nonce": {
-                    "nonce": 4837995959683129791
                   }
                 },
                 "durability": "temporary",

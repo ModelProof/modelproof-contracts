@@ -21,10 +21,10 @@
                   "string": "valid-source"
                 },
                 {
-                  "string": "hS"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeS"
+                  "string": "model"
                 }
               ]
             }
@@ -87,7 +87,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hS"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -103,7 +103,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeS"
+                        "string": "model"
                       }
                     },
                     {
@@ -120,6 +120,30 @@
                       },
                       "val": {
                         "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "revocation_reason_hash"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "revoked_at"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "status"
+                      },
+                      "val": {
+                        "vec": [
+                          {
+                            "symbol": "Active"
+                          }
+                        ]
                       }
                     }
                   ]

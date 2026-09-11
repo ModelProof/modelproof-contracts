@@ -21,10 +21,10 @@
                   "string": "art-source"
                 },
                 {
-                  "string": "hS"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeS"
+                  "string": "model"
                 }
               ]
             }
@@ -49,10 +49,10 @@
                   "string": "art-target-1"
                 },
                 {
-                  "string": "hT1"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeT"
+                  "string": "model"
                 }
               ]
             }
@@ -77,10 +77,10 @@
                   "string": "art-target-2"
                 },
                 {
-                  "string": "hT2"
+                  "string": "hash-placeholder"
                 },
                 {
-                  "string": "typeT"
+                  "string": "model"
                 }
               ]
             }
@@ -175,7 +175,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hS"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -191,7 +191,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeS"
+                        "string": "model"
                       }
                     },
                     {
@@ -208,6 +208,30 @@
                       },
                       "val": {
                         "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "revocation_reason_hash"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "revoked_at"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "status"
+                      },
+                      "val": {
+                        "vec": [
+                          {
+                            "symbol": "Active"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -261,7 +285,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hT1"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -277,7 +301,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeT"
+                        "string": "model"
                       }
                     },
                     {
@@ -294,6 +318,30 @@
                       },
                       "val": {
                         "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "revocation_reason_hash"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "revoked_at"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "status"
+                      },
+                      "val": {
+                        "vec": [
+                          {
+                            "symbol": "Active"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -347,7 +395,7 @@
                         "symbol": "artifact_hash"
                       },
                       "val": {
-                        "string": "hT2"
+                        "string": "hash-placeholder"
                       }
                     },
                     {
@@ -363,7 +411,7 @@
                         "symbol": "artifact_type"
                       },
                       "val": {
-                        "string": "typeT"
+                        "string": "model"
                       }
                     },
                     {
@@ -380,6 +428,30 @@
                       },
                       "val": {
                         "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
+                      }
+                    },
+                    {
+                      "key": {
+                        "symbol": "revocation_reason_hash"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "revoked_at"
+                      },
+                      "val": "void"
+                    },
+                    {
+                      "key": {
+                        "symbol": "status"
+                      },
+                      "val": {
+                        "vec": [
+                          {
+                            "symbol": "Active"
+                          }
+                        ]
                       }
                     }
                   ]

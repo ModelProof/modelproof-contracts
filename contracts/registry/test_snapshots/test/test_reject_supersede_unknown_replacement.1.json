@@ -18,7 +18,7 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-sup-old"
                 },
                 {
                   "string": "hash-placeholder"
@@ -55,7 +55,7 @@
                   "symbol": "Artifact"
                 },
                 {
-                  "string": "art-self-ref"
+                  "string": "art-sup-old"
                 }
               ]
             },
@@ -75,7 +75,7 @@
                       "symbol": "Artifact"
                     },
                     {
-                      "string": "art-self-ref"
+                      "string": "art-sup-old"
                     }
                   ]
                 },
@@ -95,7 +95,7 @@
                         "symbol": "artifact_id"
                       },
                       "val": {
-                        "string": "art-self-ref"
+                        "string": "art-sup-old"
                       }
                     },
                     {
