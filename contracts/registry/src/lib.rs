@@ -21,6 +21,18 @@ pub enum RegistryError {
     ArtifactAlreadyRevoked = 10,
     EmptyRevocationReason = 11,
     ReplacementArtifactNotFound = 12,
+    EmptyArtifactId = 13,
+    EmptyArtifactHash = 14,
+    EmptyArtifactType = 15,
+    EmptyRelationId = 16,
+    SourceArtifactRevoked = 17,
+    TargetArtifactRevoked = 18,
+    EmptyAttestationId = 19,
+    CannotAttestRevokedArtifact = 20,
+    CannotRevokeSupersededArtifact = 21,
+    CannotSupersedeRevokedArtifact = 22,
+    ArtifactAlreadySuperseded = 23,
+    ReplacementArtifactNotActive = 24,
 }
 
 /// Lifecycle status of a registered artifact.
@@ -127,6 +139,16 @@ impl ModelProofRegistry {
         artifact_hash: String,
         artifact_type: String,
     ) -> Result<ArtifactRecord, RegistryError> {
+        if artifact_id.len() == 0 {
+            return Err(RegistryError::EmptyArtifactId);
+        }
+        if artifact_hash.len() == 0 {
+            return Err(RegistryError::EmptyArtifactHash);
+        }
+        if artifact_type.len() == 0 {
+            return Err(RegistryError::EmptyArtifactType);
+        }
+
         owner.require_auth();
 
         let key = DataKey::Artifact(artifact_id.clone());
@@ -190,6 +212,10 @@ impl ModelProofRegistry {
             return Err(RegistryError::ArtifactAlreadyRevoked);
         }
 
+        if record.status == ArtifactStatus::Superseded {
+            return Err(RegistryError::CannotRevokeSupersededArtifact);
+        }
+
         if revocation_reason_hash.len() == 0 {
             return Err(RegistryError::EmptyRevocationReason);
         }
@@ -223,6 +249,10 @@ impl ModelProofRegistry {
         replacement_artifact_id: String,
         provenance_relation_id: String,
     ) -> Result<ArtifactRecord, RegistryError> {
+        if provenance_relation_id.len() == 0 {
+            return Err(RegistryError::EmptyRelationId);
+        }
+
         // Reject self-superseding
         if old_artifact_id == replacement_artifact_id {
             return Err(RegistryError::SelfReferencingNotAllowed);
@@ -238,10 +268,24 @@ impl ModelProofRegistry {
 
         old_artifact.owner.require_auth();
 
-        // Validate replacement artifact exists
+        if old_artifact.status == ArtifactStatus::Revoked {
+            return Err(RegistryError::CannotSupersedeRevokedArtifact);
+        }
+
+        if old_artifact.status == ArtifactStatus::Superseded {
+            return Err(RegistryError::ArtifactAlreadySuperseded);
+        }
+
+        // Validate replacement artifact exists and is Active
         let replacement_key = DataKey::Artifact(replacement_artifact_id.clone());
-        if !env.storage().persistent().has(&replacement_key) {
-            return Err(RegistryError::ReplacementArtifactNotFound);
+        let replacement_artifact: ArtifactRecord = env
+            .storage()
+            .persistent()
+            .get(&replacement_key)
+            .ok_or(RegistryError::ReplacementArtifactNotFound)?;
+
+        if replacement_artifact.status != ArtifactStatus::Active {
+            return Err(RegistryError::ReplacementArtifactNotActive);
         }
 
         // Ensure the provenance relation ID is unique
@@ -312,6 +356,10 @@ impl ModelProofRegistry {
         target_artifact_id: String,
         relation_type: RelationType,
     ) -> Result<ProvenanceRelation, RegistryError> {
+        if relation_id.len() == 0 {
+            return Err(RegistryError::EmptyRelationId);
+        }
+
         if source_artifact_id == target_artifact_id {
             return Err(RegistryError::SelfReferencingNotAllowed);
         }
@@ -330,9 +378,19 @@ impl ModelProofRegistry {
 
         source_artifact.owner.require_auth();
 
+        if source_artifact.status == ArtifactStatus::Revoked {
+            return Err(RegistryError::SourceArtifactRevoked);
+        }
+
         let target_key = DataKey::Artifact(target_artifact_id.clone());
-        if !env.storage().persistent().has(&target_key) {
-            return Err(RegistryError::TargetArtifactNotFound);
+        let target_artifact: ArtifactRecord = env
+            .storage()
+            .persistent()
+            .get(&target_key)
+            .ok_or(RegistryError::TargetArtifactNotFound)?;
+
+        if target_artifact.status == ArtifactStatus::Revoked {
+            return Err(RegistryError::TargetArtifactRevoked);
         }
 
         let created_at = env.ledger().timestamp();
@@ -421,6 +479,10 @@ impl ModelProofRegistry {
     ) -> Result<Attestation, RegistryError> {
         attester.require_auth();
 
+        if attestation_id.len() == 0 {
+            return Err(RegistryError::EmptyAttestationId);
+        }
+
         if evidence_hash.len() == 0 {
             return Err(RegistryError::EmptyEvidenceHash);
         }
@@ -431,8 +493,14 @@ impl ModelProofRegistry {
         }
 
         let art_key = DataKey::Artifact(artifact_id.clone());
-        if !env.storage().persistent().has(&art_key) {
-            return Err(RegistryError::ArtifactNotFound);
+        let artifact: ArtifactRecord = env
+            .storage()
+            .persistent()
+            .get(&art_key)
+            .ok_or(RegistryError::ArtifactNotFound)?;
+
+        if artifact.status == ArtifactStatus::Revoked {
+            return Err(RegistryError::CannotAttestRevokedArtifact);
         }
 
         let created_at = env.ledger().timestamp();
@@ -1121,5 +1189,304 @@ mod test {
         // Artifact B is unaffected
         let record_b = client.get_artifact(&art_b).unwrap();
         assert_eq!(record_b.status, ArtifactStatus::Active);
+    }
+
+    // -------------------------------------------------------------------------
+    // Input validation and security invariant tests
+    // -------------------------------------------------------------------------
+
+    #[test]
+    fn test_reject_empty_artifact_id() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let res = client.try_register_artifact(
+            &owner,
+            &String::from_str(&env, ""),
+            &String::from_str(&env, "hash-001"),
+            &String::from_str(&env, "dataset"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::EmptyArtifactId)));
+    }
+
+    #[test]
+    fn test_reject_empty_artifact_hash() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let res = client.try_register_artifact(
+            &owner,
+            &String::from_str(&env, "art-valid-id"),
+            &String::from_str(&env, ""),
+            &String::from_str(&env, "dataset"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::EmptyArtifactHash)));
+    }
+
+    #[test]
+    fn test_reject_empty_artifact_type() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let res = client.try_register_artifact(
+            &owner,
+            &String::from_str(&env, "art-valid-id"),
+            &String::from_str(&env, "hash-001"),
+            &String::from_str(&env, ""),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::EmptyArtifactType)));
+    }
+
+    #[test]
+    fn test_reject_empty_provenance_relation_id() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let src_id = register_artifact(&env, &client, &owner, "art-src-empty-rel");
+        let tgt_id = register_artifact(&env, &client, &owner, "art-tgt-empty-rel");
+
+        let res = client.try_add_provenance_relation(
+            &String::from_str(&env, ""),
+            &src_id,
+            &tgt_id,
+            &RelationType::DerivedFrom,
+        );
+        assert_eq!(res, Err(Ok(RegistryError::EmptyRelationId)));
+
+        let res_sup = client.try_supersede_artifact(&src_id, &tgt_id, &String::from_str(&env, ""));
+        assert_eq!(res_sup, Err(Ok(RegistryError::EmptyRelationId)));
+    }
+
+    #[test]
+    fn test_reject_empty_attestation_id() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let attester = Address::generate(&env);
+        let art_id = register_artifact(&env, &client, &owner, "art-empty-att");
+
+        let res = client.try_add_attestation(
+            &String::from_str(&env, ""),
+            &art_id,
+            &attester,
+            &AttestationType::Verified,
+            &String::from_str(&env, "sha256-evidence"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::EmptyAttestationId)));
+    }
+
+    #[test]
+    fn test_reject_provenance_relation_using_revoked_source() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let src_id = register_artifact(&env, &client, &owner, "art-src-revoked");
+        let tgt_id = register_artifact(&env, &client, &owner, "art-tgt-active");
+
+        client.revoke_artifact(&src_id, &String::from_str(&env, "revocation-reason"));
+
+        let res = client.try_add_provenance_relation(
+            &String::from_str(&env, "rel-rev-src"),
+            &src_id,
+            &tgt_id,
+            &RelationType::DerivedFrom,
+        );
+        assert_eq!(res, Err(Ok(RegistryError::SourceArtifactRevoked)));
+    }
+
+    #[test]
+    fn test_reject_provenance_relation_using_revoked_target() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let src_id = register_artifact(&env, &client, &owner, "art-src-active");
+        let tgt_id = register_artifact(&env, &client, &owner, "art-tgt-revoked");
+
+        client.revoke_artifact(&tgt_id, &String::from_str(&env, "revocation-reason"));
+
+        let res = client.try_add_provenance_relation(
+            &String::from_str(&env, "rel-rev-tgt"),
+            &src_id,
+            &tgt_id,
+            &RelationType::DerivedFrom,
+        );
+        assert_eq!(res, Err(Ok(RegistryError::TargetArtifactRevoked)));
+    }
+
+    #[test]
+    fn test_reject_attestation_on_revoked_artifact() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let attester = Address::generate(&env);
+        let art_id = register_artifact(&env, &client, &owner, "art-att-revoked");
+
+        client.revoke_artifact(&art_id, &String::from_str(&env, "revocation-reason"));
+
+        let res = client.try_add_attestation(
+            &String::from_str(&env, "att-on-revoked"),
+            &art_id,
+            &attester,
+            &AttestationType::Audited,
+            &String::from_str(&env, "sha256-evidence"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::CannotAttestRevokedArtifact)));
+    }
+
+    #[test]
+    fn test_reject_revoking_superseded_artifact() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let old_id = register_artifact(&env, &client, &owner, "art-old-to-sup");
+        let new_id = register_artifact(&env, &client, &owner, "art-new-rep");
+
+        client.supersede_artifact(&old_id, &new_id, &String::from_str(&env, "rel-sup-ok"));
+
+        let res = client.try_revoke_artifact(&old_id, &String::from_str(&env, "sha256-reason"));
+        assert_eq!(res, Err(Ok(RegistryError::CannotRevokeSupersededArtifact)));
+    }
+
+    #[test]
+    fn test_reject_superseding_revoked_artifact() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let old_id = register_artifact(&env, &client, &owner, "art-old-rev");
+        let new_id = register_artifact(&env, &client, &owner, "art-new-act");
+
+        client.revoke_artifact(&old_id, &String::from_str(&env, "sha256-reason"));
+
+        let res =
+            client.try_supersede_artifact(&old_id, &new_id, &String::from_str(&env, "rel-sup-rev"));
+        assert_eq!(res, Err(Ok(RegistryError::CannotSupersedeRevokedArtifact)));
+    }
+
+    #[test]
+    fn test_reject_superseding_already_superseded_artifact() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let old_id = register_artifact(&env, &client, &owner, "art-old-v1");
+        let rep_v2 = register_artifact(&env, &client, &owner, "art-rep-v2");
+        let rep_v3 = register_artifact(&env, &client, &owner, "art-rep-v3");
+
+        client.supersede_artifact(&old_id, &rep_v2, &String::from_str(&env, "rel-v1-to-v2"));
+
+        let res = client.try_supersede_artifact(
+            &old_id,
+            &rep_v3,
+            &String::from_str(&env, "rel-v1-to-v3"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::ArtifactAlreadySuperseded)));
+    }
+
+    #[test]
+    fn test_reject_using_revoked_artifact_as_replacement() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let old_id = register_artifact(&env, &client, &owner, "art-to-replace");
+        let revoked_rep = register_artifact(&env, &client, &owner, "art-revoked-rep");
+
+        client.revoke_artifact(&revoked_rep, &String::from_str(&env, "sha256-reason"));
+
+        let res = client.try_supersede_artifact(
+            &old_id,
+            &revoked_rep,
+            &String::from_str(&env, "rel-rev-rep"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::ReplacementArtifactNotActive)));
+    }
+
+    #[test]
+    fn test_reject_using_superseded_artifact_as_replacement() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let old_id = register_artifact(&env, &client, &owner, "art-current");
+        let mid_id = register_artifact(&env, &client, &owner, "art-mid");
+        let latest_id = register_artifact(&env, &client, &owner, "art-latest");
+
+        // Supersede mid_id with latest_id, making mid_id Superseded
+        client.supersede_artifact(
+            &mid_id,
+            &latest_id,
+            &String::from_str(&env, "rel-mid-latest"),
+        );
+
+        // Attempt to use superseded mid_id as a replacement for old_id
+        let res = client.try_supersede_artifact(
+            &old_id,
+            &mid_id,
+            &String::from_str(&env, "rel-use-superseded-rep"),
+        );
+        assert_eq!(res, Err(Ok(RegistryError::ReplacementArtifactNotActive)));
+    }
+
+    #[test]
+    fn test_storage_remains_unchanged_after_rejected_operations() {
+        let (env, client) = setup();
+        let owner = Address::generate(&env);
+        let attester = Address::generate(&env);
+
+        let art_id = register_artifact(&env, &client, &owner, "art-storage-test");
+        let initial_record = client.get_artifact(&art_id).unwrap();
+        assert_eq!(initial_record.status, ArtifactStatus::Active);
+
+        // 1. Rejected registration with empty id: storage has no empty key
+        assert_eq!(
+            client.try_register_artifact(
+                &owner,
+                &String::from_str(&env, ""),
+                &String::from_str(&env, "hash"),
+                &String::from_str(&env, "model"),
+            ),
+            Err(Ok(RegistryError::EmptyArtifactId))
+        );
+        assert!(client.get_artifact(&String::from_str(&env, "")).is_none());
+
+        // 2. Rejected relation with empty relation ID: no relation stored, relations list untouched
+        assert_eq!(
+            client.try_add_provenance_relation(
+                &String::from_str(&env, ""),
+                &art_id,
+                &art_id,
+                &RelationType::DerivedFrom,
+            ),
+            Err(Ok(RegistryError::EmptyRelationId))
+        );
+        assert_eq!(client.get_artifact_relations(&art_id).len(), 0);
+
+        // 3. Rejected attestation with empty attestation ID: no attestation stored, list untouched
+        assert_eq!(
+            client.try_add_attestation(
+                &String::from_str(&env, ""),
+                &art_id,
+                &attester,
+                &AttestationType::Verified,
+                &String::from_str(&env, "sha256-ev"),
+            ),
+            Err(Ok(RegistryError::EmptyAttestationId))
+        );
+        assert_eq!(client.get_artifact_attestations(&art_id).len(), 0);
+
+        // 4. Rejected superseding with non-active replacement: old artifact remains Active, no relation
+        let rep_revoked = register_artifact(&env, &client, &owner, "art-rep-rev-storage");
+        client.revoke_artifact(&rep_revoked, &String::from_str(&env, "reason"));
+        let bad_rel_id = String::from_str(&env, "rel-storage-rejected");
+
+        assert_eq!(
+            client.try_supersede_artifact(&art_id, &rep_revoked, &bad_rel_id),
+            Err(Ok(RegistryError::ReplacementArtifactNotActive))
+        );
+        let record_after_failed_supersede = client.get_artifact(&art_id).unwrap();
+        assert_eq!(record_after_failed_supersede.status, ArtifactStatus::Active);
+        assert!(record_after_failed_supersede.revoked_at.is_none());
+        assert!(client.get_provenance_relation(&bad_rel_id).is_none());
+        assert_eq!(client.get_artifact_relations(&art_id).len(), 0);
+
+        // 5. Rejected revocation of superseded artifact: status and reason unchanged
+        let new_valid_rep = register_artifact(&env, &client, &owner, "art-valid-rep");
+        let valid_rel_id = String::from_str(&env, "rel-valid-sup");
+        client.supersede_artifact(&art_id, &new_valid_rep, &valid_rel_id);
+
+        let superseded_record = client.get_artifact(&art_id).unwrap();
+        assert_eq!(superseded_record.status, ArtifactStatus::Superseded);
+
+        assert_eq!(
+            client.try_revoke_artifact(&art_id, &String::from_str(&env, "new-attempted-reason")),
+            Err(Ok(RegistryError::CannotRevokeSupersededArtifact))
+        );
+        let final_record = client.get_artifact(&art_id).unwrap();
+        assert_eq!(final_record.status, ArtifactStatus::Superseded);
+        assert_eq!(final_record.revocation_reason_hash, None);
     }
 }
