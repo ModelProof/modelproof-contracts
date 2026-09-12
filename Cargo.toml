@@ -4,6 +4,17 @@ members = [
     "contracts/*",
 ]
 
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["ModelProof Contributors"]
+license = "Apache-2.0"
+repository = "https://github.com/ModelProof/modelproof-contracts"
+homepage = "https://github.com/ModelProof/modelproof-contracts"
+readme = "README.md"
+keywords = ["stellar", "soroban", "ai", "provenance", "smart-contracts"]
+categories = ["cryptography::cryptocurrencies"]
+
 [workspace.dependencies]
 soroban-sdk = "22.0.1"
 

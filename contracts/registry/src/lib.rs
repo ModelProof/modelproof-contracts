@@ -139,13 +139,13 @@ impl ModelProofRegistry {
         artifact_hash: String,
         artifact_type: String,
     ) -> Result<ArtifactRecord, RegistryError> {
-        if artifact_id.len() == 0 {
+        if artifact_id.is_empty() {
             return Err(RegistryError::EmptyArtifactId);
         }
-        if artifact_hash.len() == 0 {
+        if artifact_hash.is_empty() {
             return Err(RegistryError::EmptyArtifactHash);
         }
-        if artifact_type.len() == 0 {
+        if artifact_type.is_empty() {
             return Err(RegistryError::EmptyArtifactType);
         }
 
@@ -216,7 +216,7 @@ impl ModelProofRegistry {
             return Err(RegistryError::CannotRevokeSupersededArtifact);
         }
 
-        if revocation_reason_hash.len() == 0 {
+        if revocation_reason_hash.is_empty() {
             return Err(RegistryError::EmptyRevocationReason);
         }
 
@@ -249,7 +249,7 @@ impl ModelProofRegistry {
         replacement_artifact_id: String,
         provenance_relation_id: String,
     ) -> Result<ArtifactRecord, RegistryError> {
-        if provenance_relation_id.len() == 0 {
+        if provenance_relation_id.is_empty() {
             return Err(RegistryError::EmptyRelationId);
         }
 
@@ -356,7 +356,7 @@ impl ModelProofRegistry {
         target_artifact_id: String,
         relation_type: RelationType,
     ) -> Result<ProvenanceRelation, RegistryError> {
-        if relation_id.len() == 0 {
+        if relation_id.is_empty() {
             return Err(RegistryError::EmptyRelationId);
         }
 
@@ -479,11 +479,11 @@ impl ModelProofRegistry {
     ) -> Result<Attestation, RegistryError> {
         attester.require_auth();
 
-        if attestation_id.len() == 0 {
+        if attestation_id.is_empty() {
             return Err(RegistryError::EmptyAttestationId);
         }
 
-        if evidence_hash.len() == 0 {
+        if evidence_hash.is_empty() {
             return Err(RegistryError::EmptyEvidenceHash);
         }
 
