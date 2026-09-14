@@ -14,17 +14,20 @@ All contributors and community participants are expected to adhere to our [Code 
 
 ### Prerequisites
 
-1. **Rust Toolchain**: Install stable Rust (1.80+ recommended):
+1. **Rust Toolchain**: Install stable Rust (1.84+ recommended for `wasm32v1-none`):
    ```bash
    rustup default stable
    ```
 2. **WASM Target**: Install the target for Soroban contract compilation:
    ```bash
-   rustup target add wasm32-unknown-unknown
+   rustup target add wasm32v1-none
    ```
-3. **Soroban CLI** (Optional, for local network simulation and contract deployment):
+3. **Stellar CLI** (Recommended, for local network simulation, building, and contract deployment):
    ```bash
-   cargo install --locked soroban-cli
+   # Linux/macOS
+   curl -fsSL https://github.com/stellar/stellar-cli/raw/main/install.sh | sh
+   # Or via Cargo
+   cargo install --locked stellar-cli
    ```
 
 ### Building the Workspace
@@ -38,7 +41,7 @@ cargo build
 
 To build optimized WASM bytecode:
 ```bash
-cargo build --target wasm32-unknown-unknown --release
+stellar contract build
 ```
 
 ---

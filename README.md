@@ -341,8 +341,8 @@ The core registry contract interface is functional, fully unit-tested (41 passin
 
 ## Development Requirements
 
-- **Rust**: Stable toolchain (Rust 1.80+)
-- **WASM Target**: `wasm32-unknown-unknown`
+- **Rust**: Stable toolchain (Rust 1.84+ for `wasm32v1-none`)
+- **WASM Target**: `wasm32v1-none`
 - **Soroban SDK**: `22.0.1` (resolves to `22.0.11`)
 - **Git**: For version control
 
@@ -358,12 +358,15 @@ The core registry contract interface is functional, fully unit-tested (41 passin
 
 2. **Add the WASM compilation target**:
    ```bash
-   rustup target add wasm32-unknown-unknown
+   rustup target add wasm32v1-none
    ```
 
-3. **Install Soroban CLI** (optional, for contract deployments):
+3. **Install Stellar CLI** (recommended for contract building and deployments):
    ```bash
-   cargo install --locked soroban-cli
+   # Linux/macOS
+   curl -fsSL https://github.com/stellar/stellar-cli/raw/main/install.sh | sh
+   # Or via Cargo
+   cargo install --locked stellar-cli
    ```
 
 ---
@@ -377,12 +380,12 @@ cargo build
 
 ### Compile Optimized WASM Bytecode (Release)
 ```bash
-cargo build --target wasm32-unknown-unknown --release
+stellar contract build
 ```
 
 The optimized contract binary will be output to:
 ```
-target/wasm32-unknown-unknown/release/modelproof_registry.wasm
+target/wasm32v1-none/release/modelproof_registry.wasm
 ```
 
 ---

@@ -16,5 +16,6 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 soroban-sdk = { workspace = true }
 
-[dev-dependencies]
+[target.'cfg(not(target_family = "wasm"))'.dev-dependencies]
 soroban-sdk = { workspace = true, features = ["testutils"] }
+

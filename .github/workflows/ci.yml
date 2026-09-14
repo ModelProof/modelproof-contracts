@@ -21,7 +21,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-          targets: wasm32-unknown-unknown
+          targets: wasm32v1-none
 
       - name: Cache cargo registry & index
         uses: actions/cache@v4
@@ -44,5 +44,8 @@ jobs:
       - name: Run Clippy
         run: cargo clippy --all-targets -- -D warnings
 
+      - name: Install Stellar CLI
+        run: curl -fsSL https://github.com/stellar/stellar-cli/raw/main/install.sh | sh
+
       - name: Build contract for WASM (Release)
-        run: cargo build --target wasm32-unknown-unknown --release
+        run: stellar contract build
